@@ -5,24 +5,23 @@ import {
   removeTodoAction,
   toggleTodoAction
 } from "../state/Actions";
-import generateId from "../utils/generateId";
 import API from "../utils/api";
 
 class Todos extends Component {
-  addTodo = e => {
+  addTodo = () => {
     const name = this.input.value;
     if (!name) {
       return;
     }
-    this.input.value = "";
 
-    this.props.store.dispatch(
-      addTodoAction({
-        id: generateId(),
-        name,
-        complete: false
+    return API.saveTodo(name)
+      .then(todo => {
+        this.props.store.dispatch(addTodoAction(todo));
+        this.input.value = "";
       })
-    );
+      .catch(() => {
+        alert("An error ocurred please try again");
+      });
   };
 
   removeItem = todo => {

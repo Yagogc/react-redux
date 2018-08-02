@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import List from "./List";
 
 import { addGoalAction, removeGoalAction } from "../state/Actions";
-import generateId from "../utils/generateId";
 import API from "../utils/api";
 class Goals extends Component {
   textInput = React.createRef();
@@ -12,13 +11,15 @@ class Goals extends Component {
     if (!name) {
       return;
     }
-    this.input.value = "";
-    this.props.store.dispatch(
-      addGoalAction({
-        id: generateId(),
-        name
+
+    return API.saveGoal(name)
+      .then(goal => {
+        this.props.store.dispatch(addGoalAction(goal));
+        this.input.value = "";
       })
-    );
+      .catch(() => {
+        alert("An error ocurred please try again");
+      });
   };
 
   removeItem = goal => {
