@@ -39,6 +39,10 @@ class Todos extends Component {
 
   toggleItem = id => {
     this.props.store.dispatch(toggleTodoAction(id));
+    return API.saveTodoToggle(id).catch(() => {
+      console.log("Failed to update the DB");
+      this.props.store.dispatch(toggleTodoAction(id));
+    });
   };
   render() {
     return (
