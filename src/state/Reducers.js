@@ -3,7 +3,8 @@ import {
   REMOVE_TODO,
   TOGGLE_TODO,
   ADD_GOAL,
-  REMOVE_GOAL
+  REMOVE_GOAL,
+  RECEIVE_DATA
 } from "./Types";
 
 export const todos = (state = [], action) => {
@@ -19,6 +20,8 @@ export const todos = (state = [], action) => {
             ? todo
             : Object.assign({}, todo, { complete: !todo.complete })
       );
+    case RECEIVE_DATA:
+      return action.todos;
     default:
       return state;
   }
@@ -29,6 +32,8 @@ export const goals = (state = [], action) => {
       return state.concat([action.goal]);
     case REMOVE_GOAL:
       return state.filter(goal => goal.id !== action.id);
+    case RECEIVE_DATA:
+      return action.goals;
     default:
       return state;
   }
