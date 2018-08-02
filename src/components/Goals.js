@@ -1,13 +1,16 @@
 import React, { Component } from "react";
 import List from "./List";
 
-import { addGoalAction } from "../state/Actions";
+import { addGoalAction, removeGoalAction } from "../state/Actions";
 import generateId from "../utils/generateId";
 class Goals extends Component {
   textInput = React.createRef();
 
   addGoal = () => {
     const name = this.input.value;
+    if (!name) {
+      return;
+    }
     this.input.value = "";
     this.props.store.dispatch(
       addGoalAction({
@@ -16,6 +19,11 @@ class Goals extends Component {
       })
     );
   };
+
+  removeItem = goal => {
+    this.props.store.dispatch(removeGoalAction(goal.id));
+  };
+
   render() {
     return (
       <React.Fragment>
@@ -26,7 +34,7 @@ class Goals extends Component {
           ref={input => (this.input = input)}
         />
         <button onClick={() => this.addGoal()}>Add Goal</button>
-        <List items={this.props.goals} />
+        <List items={this.props.goals} remove={this.removeItem} />
       </React.Fragment>
     );
   }

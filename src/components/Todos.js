@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 import List from "./List";
-import { addTodoAction } from "../state/Actions";
+import { addTodoAction, removeTodoAction } from "../state/Actions";
 import generateId from "../utils/generateId";
 
 class Todos extends Component {
   addTodo = e => {
     const name = this.input.value;
+    if (!name) {
+      return;
+    }
     this.input.value = "";
 
     this.props.store.dispatch(
@@ -15,6 +18,10 @@ class Todos extends Component {
         complete: false
       })
     );
+  };
+
+  removeItem = todo => {
+    this.props.store.dispatch(removeTodoAction(todo.id));
   };
 
   render() {
