@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import List from "./List";
-import { addTodoAction, removeTodoAction } from "../state/Actions";
+import {
+  addTodoAction,
+  removeTodoAction,
+  toggleTodoAction
+} from "../state/Actions";
 import generateId from "../utils/generateId";
 
 class Todos extends Component {
@@ -24,6 +28,9 @@ class Todos extends Component {
     this.props.store.dispatch(removeTodoAction(todo.id));
   };
 
+  toggleItem = id => {
+    this.props.store.dispatch(toggleTodoAction(id));
+  };
   render() {
     return (
       <React.Fragment>
@@ -34,7 +41,11 @@ class Todos extends Component {
           ref={input => (this.input = input)}
         />
         <button onClick={() => this.addTodo()}>Add Todo</button>
-        <List items={this.props.todos} />
+        <List
+          items={this.props.todos}
+          remove={this.removeItem}
+          toggle={this.toggleItem}
+        />
       </React.Fragment>
     );
   }
