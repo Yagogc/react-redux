@@ -1,19 +1,32 @@
 import React, { Component } from "react";
 import List from "./List";
 
+import { addGoalAction } from "../state/Actions";
+import generateId from "../utils/generateId";
 class Goals extends Component {
   textInput = React.createRef();
 
   addGoal = () => {
-    console.log(this.textInput.current.value);
+    const name = this.input.value;
+    this.input.value = "";
+    this.props.store.dispatch(
+      addGoalAction({
+        id: generateId(),
+        name
+      })
+    );
   };
   render() {
     return (
       <React.Fragment>
         <h1>Goal List</h1>
-        <input type="text" placeholder="Add Goal" ref={this.textInput} />
+        <input
+          type="text"
+          placeholder="Add Goal"
+          ref={input => (this.input = input)}
+        />
         <button onClick={() => this.addGoal()}>Add Goal</button>
-        <List />
+        <List items={this.props.goals} />
       </React.Fragment>
     );
   }

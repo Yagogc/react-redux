@@ -13,6 +13,9 @@ const store = createStore(
   applyMiddleware(logger)
 );
 class App extends Component {
+  componentDidMount() {
+    store.subscribe(() => this.forceUpdate());
+  }
   render() {
     const { todos, goals } = store.getState();
     return (
