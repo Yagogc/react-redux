@@ -1,13 +1,24 @@
 import React, { Component } from "react";
+import { createStore, combineReducers, applyMiddleware } from "redux";
 import Goals from "./components/Goals";
 import Todos from "./components/Todos";
+import { todos, goals } from "./state/Reducers";
+import { logger } from "./state/Logger";
 
+const store = createStore(
+  combineReducers({
+    todos,
+    goals
+  }),
+  applyMiddleware(logger)
+);
 class App extends Component {
   render() {
+    const { todos, goals } = store.getState();
     return (
       <React.Fragment>
-        <Todos />
-        <Goals />
+        <Todos store={store} todos={todos} />
+        <Goals store={store} goals={goals} />
       </React.Fragment>
     );
   }
