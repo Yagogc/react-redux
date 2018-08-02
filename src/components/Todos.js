@@ -6,6 +6,7 @@ import {
   toggleTodoAction
 } from "../state/Actions";
 import generateId from "../utils/generateId";
+import API from "../utils/api";
 
 class Todos extends Component {
   addTodo = e => {
@@ -26,6 +27,14 @@ class Todos extends Component {
 
   removeItem = todo => {
     this.props.store.dispatch(removeTodoAction(todo.id));
+    return API.deleteTodo(todo.id)
+      .then(() => {
+        console.log("todo removed from db");
+      })
+      .catch(() => {
+        this.props.store.dispatch(addTodoAction(todo));
+        alert("An error ocurred please try again");
+      });
   };
 
   toggleItem = id => {

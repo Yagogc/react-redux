@@ -3,6 +3,7 @@ import List from "./List";
 
 import { addGoalAction, removeGoalAction } from "../state/Actions";
 import generateId from "../utils/generateId";
+import API from "../utils/api";
 class Goals extends Component {
   textInput = React.createRef();
 
@@ -22,6 +23,14 @@ class Goals extends Component {
 
   removeItem = goal => {
     this.props.store.dispatch(removeGoalAction(goal.id));
+    return API.deleteGoal(goal.id)
+      .then(() => {
+        console.log("todo removed from db");
+      })
+      .catch(() => {
+        this.props.store.dispatch(addGoalAction(goal));
+        alert("An error ocurred please try again");
+      });
   };
 
   render() {
