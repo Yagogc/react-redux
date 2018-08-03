@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { createStore, combineReducers, applyMiddleware } from "redux";
+import ReduxThunk from "redux-thunk";
+import logger from "redux-logger";
 import Goals from "./components/Goals";
 import Todos from "./components/Todos";
 import { todos, goals, loading } from "./state/Reducers";
-import { logger } from "./state/Logger";
 import { handleInitialData } from "./state/Actions";
-import Thunk from "./state/Thunk";
 
 const store = createStore(
   combineReducers({
@@ -13,7 +13,7 @@ const store = createStore(
     goals,
     loading
   }),
-  applyMiddleware(Thunk, logger)
+  applyMiddleware(ReduxThunk, logger)
 );
 class App extends Component {
   componentDidMount() {
