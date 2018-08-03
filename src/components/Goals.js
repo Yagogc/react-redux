@@ -1,37 +1,20 @@
 import React, { Component } from "react";
 import List from "./List";
 
-import { addGoalAction, removeGoalAction } from "../state/Actions";
-import API from "../utils/api";
+import { handleDeleteGoal, handleAddGoal } from "../state/Actions";
 class Goals extends Component {
   textInput = React.createRef();
 
   addGoal = () => {
-    const name = this.input.value;
+    let name = this.input.value;
     if (!name) {
       return;
     }
-
-    return API.saveGoal(name)
-      .then(goal => {
-        this.props.store.dispatch(addGoalAction(goal));
-        this.input.value = "";
-      })
-      .catch(() => {
-        alert("An error ocurred please try again");
-      });
+    this.props.store.dispatch(handleAddGoal(name, () => (name = "")));
   };
 
   removeItem = goal => {
-    this.props.store.dispatch(removeGoalAction(goal.id));
-    return API.deleteGoal(goal.id)
-      .then(() => {
-        console.log("todo removed from db");
-      })
-      .catch(() => {
-        this.props.store.dispatch(addGoalAction(goal));
-        alert("An error ocurred please try again");
-      });
+    this.props.store.dispatch(handleDeleteGoal(goal));
   };
 
   render() {

@@ -1,47 +1,26 @@
 import React, { Component } from "react";
 import List from "./List";
 import {
-  addTodoAction,
-  removeTodoAction,
-  toggleTodoAction
+  handleDeleteTodo,
+  handleAddTodo,
+  handleToggleTodo
 } from "../state/Actions";
-import API from "../utils/api";
 
 class Todos extends Component {
   addTodo = () => {
-    const name = this.input.value;
+    let name = this.input.value;
     if (!name) {
       return;
     }
-
-    return API.saveTodo(name)
-      .then(todo => {
-        this.props.store.dispatch(addTodoAction(todo));
-        this.input.value = "";
-      })
-      .catch(() => {
-        alert("An error ocurred please try again");
-      });
+    this.props.store.dispatch(handleAddTodo(name, () => (name = "")));
   };
 
   removeItem = todo => {
-    this.props.store.dispatch(removeTodoAction(todo.id));
-    return API.deleteTodo(todo.id)
-      .then(() => {
-        console.log("todo removed from db");
-      })
-      .catch(() => {
-        this.props.store.dispatch(addTodoAction(todo));
-        alert("An error ocurred please try again");
-      });
+    this.props.store.dispatch(handleDeleteTodo(todo));
   };
 
   toggleItem = id => {
-    this.props.store.dispatch(toggleTodoAction(id));
-    return API.saveTodoToggle(id).catch(() => {
-      console.log("Failed to update the DB");
-      this.props.store.dispatch(toggleTodoAction(id));
-    });
+    this.props.store.dispatch(handleToggleTodo(id));
   };
   render() {
     return (
