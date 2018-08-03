@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import List from "./List";
 import {
   handleDeleteTodo,
@@ -42,4 +43,4 @@ class Todos extends Component {
   }
 }
 
-export default Todos;
+export default connect(state => ({ todos: state.todos }))(Todos);

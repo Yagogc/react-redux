@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import List from "./List";
 
 import { handleDeleteGoal, handleAddGoal } from "../actions/goals";
+import { connect } from "react-redux";
 class Goals extends Component {
   textInput = React.createRef();
 
@@ -33,4 +34,4 @@ class Goals extends Component {
   }
 }
 
-export default Goals;
+export default connect(state => ({ goals: state.goals }))(Goals);

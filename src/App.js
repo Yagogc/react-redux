@@ -1,31 +1,26 @@
 import React, { Component } from "react";
-import { createStore } from "redux";
 import Goals from "./components/Goals";
 import Todos from "./components/Todos";
 import { handleInitialData } from "./actions/shared";
-import combineReducers from "./reducers/index";
-import applyMiddleware from "./middleware/index";
-
-const store = createStore(combineReducers, applyMiddleware);
+import { connect } from "react-redux";
 
 class App extends Component {
   componentDidMount() {
-    store.dispatch(handleInitialData());
-    store.subscribe(() => this.forceUpdate());
+    const { dispatch } = this.props;
+    dispatch(handleInitialData());
   }
   render() {
-    const { todos, goals, loading } = store.getState();
+    const { loading } = this.props;
 
     if (loading === true) {
       return <h3>Loading...</h3>;
     }
     return (
       <React.Fragment>
-        <Todos store={store} todos={todos} />
-        <Goals store={store} goals={goals} />
+        <Todos />
+        <Goals />
       </React.Fragment>
     );
   }
 }
-
-export default App;
+export default connect(state => ({ loading: state.loading }))(App);
