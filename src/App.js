@@ -5,7 +5,7 @@ import logger from "redux-logger";
 import Goals from "./components/Goals";
 import Todos from "./components/Todos";
 import { todos, goals, loading } from "./state/Reducers";
-import { handleInitialData } from "./state/Actions";
+import { handleInitialData } from "./actions/shared";
 
 const store = createStore(
   combineReducers({
@@ -15,6 +15,7 @@ const store = createStore(
   }),
   applyMiddleware(ReduxThunk, logger)
 );
+
 class App extends Component {
   componentDidMount() {
     store.dispatch(handleInitialData());

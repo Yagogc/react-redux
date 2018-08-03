@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import List from "./List";
 
-import { handleDeleteGoal, handleAddGoal } from "../state/Actions";
+import { handleDeleteGoal, handleAddGoal } from "../actions/goals";
 class Goals extends Component {
   textInput = React.createRef();
 
