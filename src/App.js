@@ -4,8 +4,7 @@ import Goals from "./components/Goals";
 import Todos from "./components/Todos";
 import { todos, goals, loading } from "./state/Reducers";
 import { logger } from "./state/Logger";
-import API from "./utils/api";
-import { receiveDataAction } from "./state/Actions";
+import { handleInitialData } from "./state/Actions";
 import Thunk from "./state/Thunk";
 
 const store = createStore(
@@ -18,10 +17,8 @@ const store = createStore(
 );
 class App extends Component {
   componentDidMount() {
+    store.dispatch(handleInitialData());
     store.subscribe(() => this.forceUpdate());
-    Promise.all([API.fetchTodos(), API.fetchGoals()]).then(([todos, goals]) => {
-      store.dispatch(receiveDataAction(todos, goals));
-    });
   }
   render() {
     const { todos, goals, loading } = store.getState();

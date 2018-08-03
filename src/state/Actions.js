@@ -107,3 +107,13 @@ export const receiveDataAction = (todos, goals) => {
     goals
   };
 };
+
+export const handleInitialData = () => {
+  return dispatch => {
+    return Promise.all([API.fetchTodos(), API.fetchGoals()]).then(
+      ([todos, goals]) => {
+        dispatch(receiveDataAction(todos, goals));
+      }
+    );
+  };
+};
